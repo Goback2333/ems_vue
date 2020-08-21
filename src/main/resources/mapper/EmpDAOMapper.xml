@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.tyq.dao.EmpDAO">
+
+
+
+    <!--findAll-->
+    <select id="findAll" resultType="com.tyq.entity.Emp">
+        select id,name,path,salary,age from t_emp
+    </select>
+
+    <!--save-->
+    <insert id="save" parameterType="com.tyq.entity.Emp" useGeneratedKeys="true" keyProperty="id">
+        insert  into t_emp values(#{id},#{name},#{path},#{salary},#{age})
+    </insert>
+
+<!--  delete -->
+    <delete id="delete" parameterType="String">
+        delete from t_emp where id = #{id}
+    </delete>
+
+<!--  findOne -->
+        <select id="findOne" parameterType="String" resultType="com.tyq.entity.Emp">
+            select id,name,path,salary,age from t_emp
+            where id = #{id}
+        </select>
+
+<!-- update&ndash -->
+      <update id="update" parameterType="com.tyq.entity.Emp">
+            update t_emp set
+            name =#{name},
+            path = #{path},
+            salary = #{salary},
+            age = #{age}
+            where
+            id = #{id}
+        </update>
+
+
+</mapper>

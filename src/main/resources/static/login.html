@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css"
+          href="css/style.css"/>
+</head>
+
+<body>
+<div id="wrap">
+    <div id="top_content">
+        <div id="header">
+            <div id="rightheader">
+                <p>
+                    2009/11/20
+                    <br/>
+                </p>
+            </div>
+            <div id="topheader">
+                <h1 id="title">
+                    <a href="#">main</a>
+                </h1>
+            </div>
+            <div id="navigation">
+            </div>
+        </div>
+        <div id="content">
+            <p id="whereami">
+            </p>
+            <h1>
+                login
+            </h1>
+            <form action="emplist.html" method="post">
+                <table cellpadding="0" cellspacing="0" border="0"
+                       class="form_table">
+                    <tr>
+                        <td valign="middle" align="right">
+                            username:
+                        </td>
+                        <td valign="middle" align="left">
+                            <input type="text" class="inputgri" v-model="user.username"  name="name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" align="right">
+                            password:
+                        </td>
+                        <td valign="middle" align="left">
+                            <input type="password" class="inputgri" v-model="user.password" name="pwd"/>
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    <input type="button" @click="login" class="button" value="Submit &raquo;"/>
+                    &nbsp;&nbsp;
+                    <a href="/regist.html">注册</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="footer_bg">
+            ABC@126.com
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/js/vue.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var app = new Vue({
+        el: "#wrap",
+        data: {
+            user:{
+                //username:""
+/*                username:"",
+                password:""*/
+            }//用来保存用户数据
+        },
+        methods: {
+            //用户登录
+            login() {
+                //发送登录请求JSON.stringify(this.user)
+                $.ajax({
+                        url:"/user/login",
+                        data:this.user,
+                        type: 'post',
+                success:function (data) {
+                    if (data.state) {
+                        alert(data.msg + ",点击确定进入主页!");
+                        //前后端分离 把后端数据保存到浏览器localStorage中
+                        // 步骤：1.控制器map put出用户数据打印到console上 2.localStorage.setItem（）键值对的方法保存到浏览器localStorage中 console上是js对象，再转换成JSON
+                        //3.前端使用localStorage.getItem（"key"）方法获取数据
+                        //4.调用JSON.parse() 方法将JSON转换成JS对象
+                        //localStorage中的数据一般不会消失 保存到里面这样前台就可以获取到后台的信息了
+                        //将登录用户信息放入localStorage key键  value值 转成JSON字符串存到浏览器里面
+                        localStorage.setItem("user", JSON.stringify(data.user));
+                        location.href = "/emplist.html";
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+                })
+                /*axios.post("http://localhost:8989/user/login",this.user).then(res => {
+                    console.log(res.data);
+                    if (res.data.state) {
+                        alert(res.data.msg + ",点击确定进入主页!");
+                        //将登录用户信息放入localStorage key  value
+                        localStorage.setItem("user", JSON.stringify(res.data.user));
+                        location.href = "/success.html";
+                    } else {
+                        alert(res.data.msg);
+                    }
+                });*/
+            }
+        }
+    });
+</script>

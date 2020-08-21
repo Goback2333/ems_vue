@@ -1,0 +1,20 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--动态代理-->
+<mapper namespace="com.tyq.dao.UserDAO">
+
+
+
+    <!--save--><!--parameterType一般可以不写-->
+    <insert id="save" parameterType="com.tyq.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user values (#{id},#{username},#{realname},#{password},#{sex},#{status},#{registerTime})
+    </insert>
+
+    <!--findByUserName-->
+    <select id="findByUserName" parameterType="String" resultType="com.tyq.entity.User">
+        select id,username,realname,password,sex,status,regsterTime
+        from t_user where username=#{username}
+    </select>
+
+</mapper>
